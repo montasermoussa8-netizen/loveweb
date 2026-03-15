@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>إلى مروة ❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Cairo for Arabic typography) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-glow: #ff2a5f;
+            --bg-dark: #0f0005;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            overflow: hidden; /* Prevent scrolling during loading/password */
+            touch-action: pan-y;
+        }
+
+        /* Smooth TikTok-like scrolling container */
+        .snap-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .snap-section {
+            scroll-snap-align: start;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(255, 42, 95, 0.15);
+        }
+
+        /* Animations */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255,42,95,0.6)); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 30px rgba(255,42,95,1)); }
+        }
+        .animate-heartbeat {
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+
+        @keyframes floatingUp {
+            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(45deg); opacity: 0; }
+        }
+        .floating-heart {
+            position: fixed;
+            color: #ff2a5f;
+            z-index: 0;
+            opacity: 0;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        /* Glowing Text */
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 42, 95, 0.8), 0 0 20px rgba(255, 42, 95, 0.4);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 3D Flip Cards */
+        .flip-card {
+            background-color: transparent;
+            width: 140px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .flip-card-front {
+            background: linear-gradient(135deg, rgba(255,42,95,0.2), rgba(0,0,0,0.4));
+            border: 1px solid rgba(255,42,95,0.3);
+            color: white;
+            font-size: 2rem;
+        }
+        .flip-card-back {
+            background: #1a0005;
+            transform: rotateY(180deg);
+            border: 1px solid var(--primary-glow);
+        }
+        .flip-card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.6;
+            z-index: -1;
+        }
+        
+        /* Loading Bar */
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .loading-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--primary-glow);
+            box-shadow: 0 0 10px var(--primary-glow);
+            transition: width 2.5s ease-in-out;
+        }
+
+        /* Custom Input */
+        input[type="password"] {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,42,95,0.5);
+            color: white;
+            text-align: center;
+        }
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 15px rgba(255,42,95,0.5);
+        }
+
+        /* Background overlay for Section 1 */
+        .bg-hands {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        .bg-gradient-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--bg-dark));
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Hearts Background Container -->
+    <div id="hearts-container"></div>
+
+    <!-- 1️⃣ Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0f0005] transition-opacity duration-1000">
+        <div class="text-7xl mb-8 animate-heartbeat text-glow">❤️</div>
+        <div class="loading-bar mb-6">
+            <div id="progress-bar" class="loading-progress"></div>
+        </div>
+        <p class="text-xl font-bold text-pink-200">ثواني يا قطتي معلش ❤️</p>
+    </div>
+
+    <!-- 2️⃣ Password Screen -->
+    <div id="password-screen" class="fixed inset-0 z-40 hidden flex-col items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-1000 opacity-0 px-6">
+        <div class="glass-panel p-8 w-full max-w-sm flex flex-col items-center relative z-10">
+            <!-- TikTok Style Image Placeholder -->
+            <div class="w-32 h-48 rounded-xl border-2 border-dashed border-pink-400/50 mb-6 flex items-center justify-center bg-white/5 relative overflow-hidden">
+                <span class="text-pink-300 text-sm">صورتنا هنا</span>
+                <div class="absolute inset-0 bg-pink-500/20 animate-pulse"></div>
+            </div>
+            
+            <h2 class="text-2xl font-black text-center mb-8 leading-tight text-white drop-shadow-md">
+                كل الي هنا هيفضل بيني و بينك طول العمر
+            </h2>
+            
+            <input type="password" id="pass-input" placeholder="كلمة السر..." class="w-full px-4 py-3 rounded-xl mb-4 text-lg transition-all placeholder-pink-200/50">
+            
+            <button onclick="checkPassword()" class="w-full bg-gradient-to-r from-pink-600 to-rose-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-pink-500/30 transform active:scale-95 transition-all">
+                دخول
+            </button>
+            
+            <p id="pass-error" class="text-red-400 text-sm mt-3 hidden animate-bounce">كلمة السر غلط يا روحي 🥺</p>
+            
+            <p class="mt-6 text-pink-300 font-bold">يلا بسرعة افتحي ❤️😂</p>
+        </div>
+    </div>
+
+    <!-- 3️⃣ Main Content (Single Page Scroll) -->
+    <main id="main-content" class="snap-container hidden opacity-0 transition-opacity duration-1000">
+        
+        <!-- Section 1: Intro -->
+        <section class="snap-section">
+            <div class="bg-hands"></div>
+            <div class="bg-gradient-overlay"></div>
+            <h1 class="text-5xl font-black mb-4 animate-heartbeat text-glow text-center">
+                ❤️ بحبك ❤️
+            </h1>
+            <h2 class="text-4xl font-bold text-pink-200 mt-2 reveal">مروة</h2>
+        </section>
+
+        <!-- Section 2: Dates -->
+        <section class="snap-section text-center px-4">
+            <div class="glass-panel p-6 w-full max-w-md reveal">
+                <p class="text-2xl font-bold mb-8 text-pink-100">يوم ما كلمنا بعض كان يوم ولادتي</p>
+                <div class="h-px w-full bg-gradient-to-r from-transparent via-pink-500 to-transparent my-6"></div>
+                <p class="text-lg text-pink-200 mb-2">اول يوم كلمنا بعض كان</p>
+                <p class="text-3xl font-black text-white text-glow mb-8" dir="ltr">2025 / 9 / 21</p>
+                <p class="text-sm text-gray-300 leading-relaxed bg-black/30 p-3 rounded-lg">
+                    مش متأكد اوي عشان كنت كاتبها علي واتس خاص بيا<br>واتمسح لما جبت تلفون جديد<br>انا اسف يا قطتي 🥺❤️
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 3: Timer -->
+        <section class="snap-section text-center">
+            <h2 class="text-3xl font-bold text-pink-300 mb-8 text-glow reveal">بداية عمري معاكي</h2>
+            <div class="grid grid-cols-3 gap-3 w-full max-w-md reveal" dir="ltr">
+                <div class="glass-panel p-3 flex flex-col items-center">
+                    <span id="t-years" class="text-3xl font-bold text-white">0</span>
+                    <span class="text-xs text-pink-200 mt-1">Years</span>
+                </div>
+                <div class="glass-panel p-3 flex flex-col items-center">
+                    <span id="t-months" class="text-3xl font-bold text-white">0</span>
+                    <span class="text-xs text-pink-200 mt-1">Months</span>
+                </div>
+                <div class="glass-panel p-3 flex flex-col items-center">
+                    <span id="t-days" class="text-3xl font-bold text-white">0</span>
+                    <span class="text-xs text-pink-200 mt-1">Days</span>
+                </div>
+                <div class="glass-panel p-3 flex flex-col items-center">
+                    <span id="t-hours" class="text-3xl font-bold text-white">0</span>
+                    <span class="text-xs text-pink-200 mt-1">Hours</span>
+                </div>
+                <div class="glass-panel p-3 flex flex-col items-center">
+                    <span id="t-minutes" class="text-3xl font-bold text-white">0</span>
+                    <span class="text-xs text-pink-200 mt-1">Minutes</span>
+                </div>
+                <div class="glass-panel p-3 flex flex-col items-center">
+                    <span id="t-seconds" class="text-3xl font-bold text-white text-glow animate-pulse">0</span>
+                    <span class="text-xs text-pink-200 mt-1">Seconds</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Romantic Messages -->
+        <section class="snap-section text-center w-full px-4">
+            <h3 class="text-xl font-bold text-white mb-8 bg-pink-600/30 px-6 py-2 rounded-full border border-pink-500/50 reveal">
+                اقفي هنا شوية متجريش 😂
+            </h3>
+            <div class="w-full max-w-sm space-y-4">
+                <div class="glass-panel p-4 text-xl font-bold reveal" style="transition-delay: 100ms;">❤️ بحبك ❤️</div>
+                <div class="glass-panel p-4 text-xl font-bold reveal" style="transition-delay: 200ms;">❤️ بموت فيكي ❤️</div>
+                <div class="glass-panel p-4 text-xl font-bold reveal" style="transition-delay: 300ms;">❤️ بعشقك ❤️</div>
+                <div class="glass-panel p-4 text-xl font-bold text-pink-200 reveal" style="transition-delay: 400ms;">❤️ انا اسف لو زعلانه مني ❤️</div>
+                <div class="glass-panel p-4 text-lg font-bold text-glow reveal" style="transition-delay: 500ms;">❤️ كل سنة وانتي معايا و عيد سعيد يا روحي ❤️</div>
+            </div>
+        </section>
+
+        <!-- Section 5: Flip Cards -->
+        <section class="snap-section text-center">
+            <h2 class="text-2xl font-bold text-pink-200 mb-6 reveal">إضغطي على الكروت بالترتيب ✨</h2>
+            <div class="grid grid-cols-2 gap-4 w-full max-w-sm reveal">
+                
+                <!-- Card 1 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span>1</span><br><span class="text-sm">❤️</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <img src="WhatsApp Image 2026-03-16 at 1.23.33 AM.jpeg" alt="Image 1">
+                            <p class="relative z-10 text-xl font-black text-white text-glow drop-shadow-lg">محبتش</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span>2</span><br><span class="text-sm">❤️</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <img src="WhatsApp Image 2026-03-16 at 1.25.58 AM (1).jpeg" alt="Image 2">
+                            <p class="relative z-10 text-xl font-black text-white text-glow drop-shadow-lg">ولا بحب</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span>3</span><br><span class="text-sm">❤️</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <img src="WhatsApp Image 2026-03-16 at 1.25.58 AM (2).jpeg" alt="Image 3">
+                            <p class="relative z-10 text-lg font-black text-white text-glow drop-shadow-lg">ولا هحب حد</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span>4</span><br><span class="text-sm">❤️</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <img src="WhatsApp Image 2026-03-16 at 1.25.58 AM.jpeg" alt="Image 4">
+                            <p class="relative z-10 text-sm font-black text-white text-glow drop-shadow-lg">زي ما حبيتك<br>يا روح قلبي ❤️</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 6: Locked Final Message -->
+        <section class="snap-section px-4 text-center">
+            <div id="locked-box" class="glass-panel p-8 w-full max-w-sm cursor-pointer transition-all duration-700 reveal" onclick="unlockMessage()">
+                <div id="lock-icon" class="text-5xl mb-4 transition-transform duration-500">🔒</div>
+                <h3 id="lock-text" class="text-2xl font-bold text-pink-300">لسا مخلصتش دوسي هنا</h3>
+                
+                <div id="secret-message" class="hidden opacity-0 transition-opacity duration-1000 mt-6 flex flex-col items-center">
+                    <p class="text-2xl font-black text-white leading-relaxed mb-4 text-glow">
+                        ربنا يخليكي ليا<br>ونتجوز ونفضل مع بعض<br>لآخر يوم في حياتنا<br>وميحرمنيش منك أبدا<br>يا روح قلبي ونور عيني ❤️
+                    </p>
+                    <div class="text-4xl animate-heartbeat mt-4">💍❤️</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 1. Floating Hearts Animation Generator
+        const heartsContainer = document.getElementById('hearts-container');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = ['❤️', '💖', '💗', '💕'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.animation = `floatingUp ${Math.random() * 4 + 5}s linear forwards`;
+            
+            heartsContainer.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 9000);
+        }
+        setInterval(createHeart, 400);
+
+        // 2. Loading Screen Logic
+        window.addEventListener('load', () => {
+            const progressBar = document.getElementById('progress-bar');
+            setTimeout(() => { progressBar.style.width = '100%'; }, 100);
+            
+            setTimeout(() => {
+                const loadScreen = document.getElementById('loading-screen');
+                loadScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loadScreen.style.display = 'none';
+                    const passScreen = document.getElementById('password-screen');
+                    document.body.style.overflow = 'hidden';
+                    passScreen.style.display = 'flex';
+                    // Trigger reflow
+                    void passScreen.offsetWidth;
+                    passScreen.style.opacity = '1';
+                }, 1000);
+            }, 3000);
+        });
+
+        // 3. Password Check Logic
+        function checkPassword() {
+            const input = document.getElementById('pass-input').value.toLowerCase().trim();
+            const errorMsg = document.getElementById('pass-error');
+            
+            if (input === 'love') {
+                errorMsg.classList.add('hidden');
+                const passScreen = document.getElementById('password-screen');
+                passScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    passScreen.style.display = 'none';
+                    const mainContent = document.getElementById('main-content');
+                    mainContent.style.display = 'block';
+                    document.body.style.overflow = 'auto'; // restore scrolling
+                    
+                    // Fade in main content
+                    void mainContent.offsetWidth;
+                    mainContent.style.opacity = '1';
+                    
+                    // Initialize Scroll Observer for animations
+                    initScrollObserver();
+                }, 1000);
+            } else {
+                errorMsg.classList.remove('hidden');
+                document.getElementById('pass-input').value = '';
+                // Shake effect on the input
+                const inputEl = document.getElementById('pass-input');
+                inputEl.style.transform = 'translateX(10px)';
+                setTimeout(() => inputEl.style.transform = 'translateX(-10px)', 100);
+                setTimeout(() => inputEl.style.transform = 'translateX(10px)', 200);
+                setTimeout(() => inputEl.style.transform = 'translateX(0)', 300);
+            }
+        }
+
+        // 4. Live Timer Logic (Counting up from Sept 21, 2025)
+        const startDate = new Date('2025-09-21T00:00:00');
+        
+        function updateTimer() {
+            const now = new Date();
+            let diff = now - startDate;
+            
+            // If date is in the future relative to system clock, show zeros
+            if (diff < 0) diff = 0; 
+
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('t-years').innerText = years;
+            document.getElementById('t-months').innerText = months;
+            document.getElementById('t-days').innerText = days;
+            document.getElementById('t-hours').innerText = hours;
+            document.getElementById('t-minutes').innerText = minutes;
+            document.getElementById('t-seconds').innerText = seconds;
+        }
+        setInterval(updateTimer, 1000);
+
+        // 5. Scroll Reveal Animation Logic (Intersection Observer)
+        function initScrollObserver() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            reveals.forEach(el => observer.observe(el));
+            
+            // Trigger first section manually
+            setTimeout(() => {
+                document.querySelectorAll('.snap-section:nth-child(1) .reveal').forEach(el => el.classList.add('active'));
+            }, 500);
+        }
+
+        // 6. Final Locked Message Logic
+        let unlocked = false;
+        function unlockMessage() {
+            if(unlocked) return;
+            unlocked = true;
+            
+            const icon = document.getElementById('lock-icon');
+            const text = document.getElementById('lock-text');
+            const secret = document.getElementById('secret-message');
+            const box = document.getElementById('locked-box');
+            
+            // Animation sequence
+            icon.style.transform = 'rotate(15deg) scale(1.2)';
+            setTimeout(() => {
+                icon.innerHTML = '🔓';
+                icon.style.transform = 'rotate(0deg) scale(1)';
+                text.style.display = 'none';
+                
+                box.classList.add('bg-pink-900/40');
+                box.classList.add('border-pink-500');
+                
+                secret.classList.remove('hidden');
+                // Trigger reflow
+                void secret.offsetWidth;
+                secret.style.opacity = '1';
+                
+            }, 400);
+        }
+    </script>
+</body>
+</html>
